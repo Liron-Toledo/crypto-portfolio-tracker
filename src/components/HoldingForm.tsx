@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addHolding, updateHolding } from '../features/holdings/holdingsSlice';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../store';
+import { useFetchCoinList } from '../hooks/useFetchCryptoData';
 
 interface HoldingFormProps {
   holdingId?: string;
@@ -15,9 +16,12 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
     state.holdings.items.find((item) => item.id === holdingId)
   );
 
+  const { data: coinList, isLoading: isCoinListLoading } = useFetchCoinList();
+
   const [formState, setFormState] = useState({
     name: '',
     symbol: '',
+    coinGeckoId: '',
     quantity: '',
   });
 
@@ -26,35 +30,40 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
       setFormState({
         name: holding.name,
         symbol: holding.symbol,
+        coinGeckoId: holding.coinGeckoId,
         quantity: holding.quantity.toString(),
       });
     }
   }, [holding]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (holdingId) {
-      dispatch(
-        updateHolding({
-          id: holdingId,
-          ...formState,
-          quantity: parseFloat(formState.quantity),
-        })
-      );
-    } else {
-      dispatch(
-        addHolding({
-          id: Date.now().toString(),
-          ...formState,
-          quantity: parseFloat(formState.quantity),
-        })
-      );
+    const parsedQuantity = parseFloat(formState.quantity);
+
+    if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
+      alert('Quantity must be a positive number.');
+      return;
     }
+
+    const holdingData = {
+      id: holdingId || Date.now().toString(),
+      name: formState.name,
+      symbol: formState.symbol,
+      coinGeckoId: formState.coinGeckoId,
+      quantity: parsedQuantity,
+    };
+
+    if (holdingId) {
+      dispatch(updateHolding(holdingData));
+    } else {
+      dispatch(addHolding(holdingData));
+    }
+
     navigate('/');
   };
 
@@ -83,6 +92,27 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
         />
       </div>
       <div className="mb-4">
+    <label className="block mb-2">Cryptocurrency</label>
+    {isCoinListLoading ? (
+      <p>Loading coin list...</p>
+    ) : (
+      <select
+        name="coinGeckoId"
+        value={formState.coinGeckoId}
+        onChange={handleChange}
+        className="border px-2 py-1 w-full"
+        required
+      >
+        <option value="">Select a coin</option>
+        {coinList?.map((coin) => (
+          <option key={coin.id} value={coin.id}>
+            {coin.name} ({coin.symbol.toUpperCase()})
+          </option>
+        ))}
+      </select>
+    )}
+  </div>
+      <div className="mb-4">
         <label className="block mb-2">Quantity</label>
         <input
           type="number"
@@ -91,7 +121,10 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
           onChange={handleChange}
           className="border px-2 py-1 w-full"
           required
-          min="0"
+          min="0.00000001"
+          step="any"
+          onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity('Quantity must be positive')}
+          onInput={(e) => (e.target as HTMLInputElement).setCustomValidity('')}
         />
       </div>
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">

@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface Holding {
-  id: string;
-  name: string;
-  symbol: string;
-  quantity: number;
-}
+import { Holding } from '../../types';
 
 interface HoldingsState {
   items: Holding[];
