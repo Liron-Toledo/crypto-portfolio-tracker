@@ -4,6 +4,7 @@ import { RootState } from '../store';
 import { Link } from 'react-router-dom';
 import { useFetchCryptoPrices } from '../hooks/useFetchCryptoData';
 import { deleteHolding } from '../features/holdings/holdingsSlice';
+import { FaTrash, FaEdit, FaInfoCircle } from 'react-icons/fa';
 
 const HoldingsList: React.FC = () => {
   const holdings = useSelector((state: RootState) => state.holdings.items);
@@ -13,70 +14,74 @@ const HoldingsList: React.FC = () => {
   const { data: pricesData, isLoading, isError } = useFetchCryptoPrices(holdings);
 
   return (
-    <div>
-      <Link
-        to="/add"
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block"
-      >
-        Add Holding
-      </Link>
-      <table className="min-w-full bg-white">
-        <thead>
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead className="bg-blue-500 text-white">
           <tr>
-            <th className="py-2">Name</th>
-            <th>Symbol</th>
-            <th>Quantity</th>
-            <th>Current Price</th>
-            <th>Total Value</th>
-            <th>Actions</th>
+            <th className="py-3 px-4 text-left">Name</th>
+            <th className="py-3 px-4 text-left">Symbol</th>
+            <th className="py-3 px-4 text-left">Quantity</th>
+            <th className="py-3 px-4 text-left">Current Price</th>
+            <th className="py-3 px-4 text-left">Total Value</th>
+            <th className="py-3 px-4 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {holdings.map((holding) => {
+          {holdings.map((holding, index) => {
             const price = pricesData?.[holding.coinGeckoId.toLowerCase()]?.usd;
 
-            if (!price && pricesData) {
-              console.warn(`Price data missing for ${holding.coinGeckoId}`);
-            }
-
             return (
-              <tr key={holding.id}>
-                <td className="py-2">{holding.name}</td>
-                <td>{holding.symbol}</td>
-                <td>{holding.quantity}</td>
-                <td>
-                  {isLoading
-                    ? 'Loading...'
-                    : isError
-                      ? <span className="text-red-500">Error fetching prices</span>
-                      : price !== undefined
-                        ? `$${price}`
-                        : 'N/A'}
+              <tr
+                key={holding.id}
+                className={`border-b ${
+                  index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                } hover:bg-gray-100`}
+              >
+                <td className="py-3 px-4">{holding.name}</td>
+                <td className="py-3 px-4 uppercase">{holding.symbol}</td>
+                <td className="py-3 px-4">{holding.quantity}</td>
+                <td className="py-3 px-4">
+                  {isLoading ? (
+                    'Loading...'
+                  ) : isError ? (
+                    <span className="text-red-500">Error fetching prices</span>
+                  ) : price !== undefined ? (
+                    `$${price.toLocaleString()}`
+                  ) : (
+                    'N/A'
+                  )}
                 </td>
-                <td>
-                  {price !== undefined
-                    ? `$${(price * holding.quantity).toFixed(2)}`
-                    : 'Calculating...'}
+                <td className="py-3 px-4">
+                  {price !== undefined ? (
+                    `$${(price * holding.quantity).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
+                  ) : (
+                    'Calculating...'
+                  )}
                 </td>
-                <td>
-                  <Link
-                    to={`/details/${holding.id}`}
-                    className="text-blue-500 mr-2 hover:underline"
-                  >
-                    Details
-                  </Link>
-                  <Link
-                    to={`/edit/${holding.id}`}
-                    className="text-green-500 mr-2 hover:underline"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    onClick={() => dispatch(deleteHolding(holding.id))}
-                    className="text-red-500 hover:underline"
-                  >
-                    Delete
-                  </button>
+                <td className="py-3 px-4">
+                  <div className="flex items-center justify-center space-x-4">
+                    <Link
+                      to={`/details/${holding.id}`}
+                      className="text-blue-500 hover:text-blue-600"
+                    >
+                      <FaInfoCircle title="Details" />
+                    </Link>
+                    <Link
+                      to={`/edit/${holding.id}`}
+                      className="text-green-500 hover:text-green-600"
+                    >
+                      <FaEdit title="Edit" />
+                    </Link>
+                    <button
+                      onClick={() => dispatch(deleteHolding(holding.id))}
+                      className="text-red-500 hover:text-red-600"
+                    >
+                      <FaTrash title="Delete" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             );

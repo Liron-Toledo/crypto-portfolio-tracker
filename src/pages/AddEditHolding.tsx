@@ -6,7 +6,7 @@ const AddEditHolding: React.FC = () => {
   const { id } = useParams();
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <HoldingForm holdingId={id} />
     </div>
   );

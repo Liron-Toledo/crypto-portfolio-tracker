@@ -41,36 +41,41 @@ export const useFetchCryptoPrices = (holdings: { coinGeckoId: string }[]) => {
     });
   };
 
-export const useFetchCryptoHistory = (id: string | undefined) => {
+  export const useFetchCryptoHistory = (
+    id: string | undefined,
+    days: string
+  ) => {
     return useQuery<
-        { date: string; price: number }[],
-        Error
+      { date: string; price: number }[],
+      Error
     >({
-        queryKey: ['cryptoHistory', id],
-        queryFn: async ({ queryKey }) => {
-            const [, cryptoId] = queryKey;
-
-            if (!cryptoId || typeof cryptoId !== 'string') {
-                throw new Error('Invalid crypto ID');
-            }
-
-            const response = await axios.get(`http://localhost:3000/api/history`, {
-                params: {
-                    id: cryptoId.toLowerCase(),
-                    days: '7',
-                },
-            });
-
-            return response.data.prices.map(([timestamp, price]: [number, number]) => ({
-                date: new Date(timestamp).toLocaleDateString(),
-                price,
-            }));
-        },
-        enabled: !!id,
-        staleTime: 0,
-        refetchInterval: false,
+      queryKey: ['cryptoHistory', id, days],
+      queryFn: async ({ queryKey }) => {
+        const [, cryptoId, days] = queryKey;
+  
+        if (!cryptoId || typeof cryptoId !== 'string') {
+          throw new Error('Invalid crypto ID');
+        }
+  
+        const response = await axios.get(`http://localhost:3000/api/history`, {
+          params: {
+            id: cryptoId.toLowerCase(),
+            days,
+          },
+        });
+  
+        return response.data.prices.map(
+          ([timestamp, price]: [number, number]) => ({
+            date: new Date(timestamp).toLocaleDateString(),
+            price,
+          })
+        );
+      },
+      enabled: !!id,
+      staleTime: 0,
+      refetchInterval: false,
     });
-};
+  };
 
 export const useFetchCoinList = () => {
     return useQuery<
