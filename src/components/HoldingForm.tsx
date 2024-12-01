@@ -25,6 +25,8 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
     quantity: '',
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     if (holding) {
       setFormState({
@@ -85,35 +87,57 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
     navigate('/');
   };
 
+  // Filtered coin list based on search query (by name or symbol)
+  const filteredCoinList = coinList?.filter(
+    (coin) =>
+      coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-6 text-center">
         {holdingId ? 'Edit Holding' : 'Add New Holding'}
       </h2>
       <form onSubmit={handleSubmit}>
-        {/* Cryptocurrency */}
+        {/* Cryptocurrency Selection */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Cryptocurrency</label>
           {isCoinListLoading ? (
             <p>Loading coin list...</p>
           ) : (
-            <select
-              name="coinGeckoId"
-              value={formState.coinGeckoId}
-              onChange={handleChange}
-              className="border px-3 py-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              <option value="">Select a coin</option>
-              {coinList?.map((coin) => (
-                <option key={coin.id} value={coin.id}>
-                  {coin.name} ({coin.symbol.toUpperCase()})
-                </option>
-              ))}
-            </select>
+            <>
+              {/* Search Input */}
+              <input
+                type="text"
+                placeholder="Search by name or symbol..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="border px-3 py-2 mb-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {/* Select Dropdown */}
+              <select
+                name="coinGeckoId"
+                value={formState.coinGeckoId}
+                onChange={handleChange}
+                className="border px-3 py-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              >
+                <option value="">Select a coin</option>
+                {filteredCoinList && filteredCoinList.length > 0 ? (
+                  filteredCoinList.map((coin) => (
+                    <option key={coin.id} value={coin.id}>
+                      {coin.name} ({coin.symbol.toUpperCase()})
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No coins found</option>
+                )}
+              </select>
+            </>
           )}
         </div>
-        {/* Display Name and Symbol */}
+        {/* Display Selected Coin's Name and Symbol */}
         {formState.name && formState.symbol && (
           <div className="mb-4">
             <p>
@@ -124,7 +148,7 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
             </p>
           </div>
         )}
-        {/* Quantity */}
+        {/* Quantity Input */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Quantity</label>
           <input
@@ -147,7 +171,7 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
             }
           />
         </div>
-        {/* Buttons */}
+        {/* Form Buttons */}
         <div className="flex items-center justify-between">
           <button
             type="submit"

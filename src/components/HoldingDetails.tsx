@@ -30,7 +30,14 @@ const HoldingDetails: React.FC<HoldingDetailsProps> = ({ holdingId }) => {
   );
 
   if (!holding) {
-    return <div>Holding not found.</div>;
+    return (
+      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
+        <h2 className="text-2xl font-bold mb-4">Holding not found.</h2>
+        <Link to="/" className="text-blue-500 hover:underline">
+          &larr; Back to Portfolio
+        </Link>
+      </div>
+    );
   }
 
   return (
