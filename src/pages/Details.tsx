@@ -1,12 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import HoldingDetails from '../components/HoldingDetails';
 
 const Details: React.FC = () => {
   const { id } = useParams();
 
   return (
     <div className="container mx-auto p-4">
-      <div>{id}</div>
+      <HoldingDetails holdingId={id!} />
     </div>
   );
 };
