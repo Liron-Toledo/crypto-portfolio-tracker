@@ -47,7 +47,6 @@ Cryptocurrency Portfolio Tracker is a web application designed to help users man
 Before you begin, ensure you have met the following requirements:
 
 - **Node.js:** Install the latest LTS version from [Node.js Official Website](https://nodejs.org/).
-- **npm or yarn:** Package manager that comes with Node.js. Alternatively, install yarn from [Yarn Official Website](https://yarnpkg.com/).
 
 ### Steps
 
@@ -132,6 +131,9 @@ Thi will run the server on http://localhost:3000.
 
 ```bash
 crypto-portfolio-tracker/
+crypto-portfolio-tracker/
+├── backend/
+│   └── server.js
 ├── src/
 │   ├── components/
 │   │   ├── Header.tsx
