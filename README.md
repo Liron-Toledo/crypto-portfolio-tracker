@@ -1,7 +1,7 @@
-# Cryptocurrency Portfolio Manager
+# Cryptocurrency Portfolio Tracker
 
 ## Table of Contents
-- [Cryptocurrency Portfolio Manager](#cryptocurrency-portfolio-manager)
+- [Cryptocurrency Portfolio Tracker](#cryptocurrency-portfolio-tracker)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Features](#features)
@@ -17,7 +17,7 @@
 
 ## Overview
 
-Cryptocurrency Portfolio Manager is a web application designed to help users manage and track their cryptocurrency holdings effortlessly.Users can add, edit, and delete their holdings, view real-time prices, and analyze historical performance through interactive charts.
+Cryptocurrency Portfolio Tracker is a web application designed to help users manage and track their cryptocurrency holdings effortlessly.Users can add, edit, and delete their holdings, view real-time prices, and analyze historical performance through interactive charts.
 
 ## Features
 
@@ -56,8 +56,8 @@ Before you begin, ensure you have met the following requirements:
 ## Step 1
  
  ```bash
-    git clone https://github.com/Liron-Toledo/cryptocurrency-portfolio-manager.git
-    cd cryptocurrency-portfolio-manager
+    git clone https://github.com/Liron-Toledo/crypto-portfolio-tracker.git
+    cd crypto-portfolio-tracker
     npm install
     npm start
   ``` 
@@ -68,7 +68,7 @@ The application will start on http://localhost:5173.
 You will also need to run the proxy server to access coin data pulled from the CoinGecko API. To do this:
 
  ```bash
-    cd cryptocurrency-portfolio-manager
+    cd crypto-portfolio-tracker
     cd backend
     npm install
     npm start
@@ -133,7 +133,7 @@ Thi will run the server on http://localhost:3000.
 ## Project Structure
 
 ```bash
-cryptocurrency-portfolio-manager/
+crypto-portfolio-tracker/
 ├── src/
 │   ├── components/
 │   │   ├── HoldingDetails.tsx
