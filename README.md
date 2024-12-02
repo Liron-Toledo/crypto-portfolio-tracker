@@ -9,8 +9,6 @@
   - [Installation](#installation)
     - [Prerequisites](#prerequisites)
     - [Steps](#steps)
-  - [Step 1](#step-1)
-  - [Step 2](#step-2)
   - [Usage](#usage)
   - [Additional Features and Enhancements](#additional-features-and-enhancements)
   - [Project Structure](#project-structure)
@@ -53,7 +51,7 @@ Before you begin, ensure you have met the following requirements:
 
 ### Steps
 
-## Step 1
+Step 1
  
  ```bash
     git clone https://github.com/Liron-Toledo/crypto-portfolio-tracker.git
@@ -63,7 +61,7 @@ Before you begin, ensure you have met the following requirements:
   ``` 
 The application will start on http://localhost:5173.
 
-## Step 2
+Step 2
 
 You will also need to run the proxy server to access coin data pulled from the CoinGecko API. To do this:
 
