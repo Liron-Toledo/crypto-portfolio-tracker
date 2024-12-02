@@ -180,7 +180,7 @@ const HoldingsList: React.FC = () => {
                   key={id}
                   className={`border-b ${
                     index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-700' : 'bg-white dark:bg-gray-800'
-                  } hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300`}
+                  } hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300`}
                 >
                   <td className="py-3 px-4 text-gray-800 dark:text-gray-200">{name}</td>
                   <td className="py-3 px-4 uppercase text-gray-800 dark:text-gray-200">{symbol}</td>
