@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --chart-grid-stroke: #ccc;
+    --tooltip-bg: #ffffff;
+    --tooltip-border: #ccc;
+    --tooltip-text: #000000;
+  }
+  
+  .dark {
+    --chart-grid-stroke: #555;
+    --tooltip-bg: #2d3748;
+    --tooltip-border: #4a5568;
+    --tooltip-text: #e2e8f0;
+  }

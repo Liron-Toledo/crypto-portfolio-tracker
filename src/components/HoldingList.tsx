@@ -105,7 +105,7 @@ const HoldingsList: React.FC = () => {
           placeholder="Search by name or symbol..."
           value={filterQuery}
           onChange={(e) => setFilterQuery(e.target.value)}
-          className="mb-2 md:mb-0 border border-gray-300 px-3 py-2 rounded w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="mb-2 md:mb-0 border border-gray-300 dark:border-gray-600 px-3 py-2 rounded w-full md:w-1/3 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
         />
 
         {/* Sort Controls */}
@@ -114,7 +114,7 @@ const HoldingsList: React.FC = () => {
           <select
             value={sortKey}
             onChange={(e) => setSortKey(e.target.value as SortKey)}
-            className="border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
           >
             <option value="name">Sort by Name</option>
             <option value="symbol">Sort by Symbol</option>
@@ -126,7 +126,7 @@ const HoldingsList: React.FC = () => {
           {/* Sort Order Toggle */}
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
           >
             {sortOrder === 'asc' ? 'Ascending' : 'Descending'}
           </button>
@@ -134,8 +134,8 @@ const HoldingsList: React.FC = () => {
       </div>
 
       {/* Holdings Table for Desktop */}
-      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden hidden md:table">
-        <thead className="bg-blue-500 text-white">
+      <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden hidden md:table transition-colors duration-300">
+        <thead className="bg-blue-500 text-white dark:bg-blue-700">
           <tr>
             <th
               className="py-3 px-4 text-left cursor-pointer"
@@ -179,13 +179,13 @@ const HoldingsList: React.FC = () => {
                 <tr
                   key={id}
                   className={`border-b ${
-                    index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                  } hover:bg-gray-100`}
+                    index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-700' : 'bg-white dark:bg-gray-800'
+                  } hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300`}
                 >
-                  <td className="py-3 px-4">{name}</td>
-                  <td className="py-3 px-4 uppercase">{symbol}</td>
-                  <td className="py-3 px-4">{quantity}</td>
-                  <td className="py-3 px-4">
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-200">{name}</td>
+                  <td className="py-3 px-4 uppercase text-gray-800 dark:text-gray-200">{symbol}</td>
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-200">{quantity}</td>
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-200">
                     {isLoading ? (
                       'Loading...'
                     ) : isError ? (
@@ -196,7 +196,7 @@ const HoldingsList: React.FC = () => {
                       'N/A'
                     )}
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-200">
                     {isLoading ? (
                       'Loading...'
                     ) : isError ? (
@@ -214,21 +214,21 @@ const HoldingsList: React.FC = () => {
                     <div className="flex items-center justify-center space-x-4">
                       <Link
                         to={`/details/${id}`}
-                        className="text-blue-500 hover:text-blue-600"
+                        className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500 transition-colors duration-300"
                         title="Details"
                       >
                         <FaInfoCircle />
                       </Link>
                       <Link
                         to={`/edit/${id}`}
-                        className="text-green-500 hover:text-green-600"
+                        className="text-green-500 hover:text-green-600 dark:text-green-400 dark:hover:text-green-500 transition-colors duration-300"
                         title="Edit"
                       >
                         <FaEdit />
                       </Link>
                       <button
                         onClick={() => dispatch(deleteHolding(id))}
-                        className="text-red-500 hover:text-red-600"
+                        className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500 transition-colors duration-300"
                         title="Delete"
                       >
                         <FaTrash />
@@ -241,7 +241,7 @@ const HoldingsList: React.FC = () => {
           ) : (
             <tr>
               <td
-                className="py-3 px-4 text-center"
+                className="py-3 px-4 text-center text-gray-600 dark:text-gray-400"
                 colSpan={6}
               >
                 No holdings found.
@@ -260,35 +260,37 @@ const HoldingsList: React.FC = () => {
             return (
               <div
                 key={id}
-                className="bg-white shadow-md rounded-lg p-4"
+                className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 transition-colors duration-300"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-xl font-semibold">{name} ({symbol})</h2>
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                    {name} ({symbol})
+                  </h2>
                   <div className="flex space-x-2">
                     <Link
                       to={`/details/${id}`}
-                      className="text-blue-500 hover:text-blue-600"
+                      className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500 transition-colors duration-300"
                       title="Details"
                     >
                       <FaInfoCircle />
                     </Link>
                     <Link
                       to={`/edit/${id}`}
-                      className="text-green-500 hover:text-green-600"
+                      className="text-green-500 hover:text-green-600 dark:text-green-400 dark:hover:text-green-500 transition-colors duration-300"
                       title="Edit"
                     >
                       <FaEdit />
                     </Link>
                     <button
                       onClick={() => dispatch(deleteHolding(id))}
-                      className="text-red-500 hover:text-red-600"
+                      className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500 transition-colors duration-300"
                       title="Delete"
                     >
                       <FaTrash />
                     </button>
                   </div>
                 </div>
-                <div className="text-gray-700">
+                <div className="text-gray-700 dark:text-gray-300">
                   <p>
                     <strong>Quantity:</strong> {quantity}
                   </p>
@@ -324,7 +326,7 @@ const HoldingsList: React.FC = () => {
             );
           })
         ) : (
-          <div className="text-center text-gray-600">
+          <div className="text-center text-gray-600 dark:text-gray-400">
             No holdings found.
           </div>
         )}

@@ -95,16 +95,20 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
   );
 
   return (
-    <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6 text-center">
+    <div className="max-w-lg w-full bg-white dark:bg-gray-800 p-8 rounded-lg shadow transition-colors duration-300">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200 transition-colors duration-300">
         {holdingId ? 'Edit Holding' : 'Add New Holding'}
       </h2>
       <form onSubmit={handleSubmit}>
         {/* Cryptocurrency Selection */}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold">Cryptocurrency</label>
+          <label className="block mb-2 font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300">
+            Cryptocurrency
+          </label>
           {isCoinListLoading ? (
-            <p>Loading coin list...</p>
+            <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">
+              Loading coin list...
+            </p>
           ) : (
             <>
               {/* Search Input */}
@@ -113,14 +117,14 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
                 placeholder="Search by name or symbol..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border px-3 py-2 mb-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 dark:border-gray-600 px-3 py-2 mb-2 w-full rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
               />
               {/* Select Dropdown */}
               <select
                 name="coinGeckoId"
                 value={formState.coinGeckoId}
                 onChange={handleChange}
-                className="border px-3 py-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 dark:border-gray-600 px-3 py-2 w-full rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
                 required
               >
                 <option value="">Select a coin</option>
@@ -140,23 +144,25 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
         {/* Display Selected Coin's Name and Symbol */}
         {formState.name && formState.symbol && (
           <div className="mb-4">
-            <p>
+            <p className="text-gray-800 dark:text-gray-200">
               <strong>Name:</strong> {formState.name}
             </p>
-            <p>
+            <p className="text-gray-800 dark:text-gray-200">
               <strong>Symbol:</strong> {formState.symbol}
             </p>
           </div>
         )}
         {/* Quantity Input */}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold">Quantity</label>
+          <label className="block mb-2 font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300">
+            Quantity
+          </label>
           <input
             type="number"
             name="quantity"
             value={formState.quantity}
             onChange={handleChange}
-            className="border px-3 py-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 dark:border-gray-600 px-3 py-2 w-full rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
             required
             min="0.00000001"
             step="any"
@@ -175,14 +181,14 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
         <div className="flex items-center justify-between">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+            className="bg-blue-500 dark:bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {holdingId ? 'Update Holding' : 'Add Holding'}
           </button>
           <button
             type="button"
             onClick={() => navigate('/')}
-            className="text-gray-500 hover:text-gray-700 transition"
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Cancel
           </button>
