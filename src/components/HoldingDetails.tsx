@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { useFetchCryptoHistory } from '../hooks/useFetchCryptoData';
 import { Link } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 
 interface HoldingDetailsProps {
   holdingId: string;
@@ -31,19 +32,24 @@ const HoldingDetails: React.FC<HoldingDetailsProps> = ({ holdingId }) => {
 
   if (!holding) {
     return (
-      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
+      <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">Holding not found.</h2>
-        <Link to="/" className="text-blue-500 hover:underline">
-          &larr; Back to Portfolio
+        <Link
+          to="/"
+          className="flex items-center text-blue-500 hover:underline"
+        >
+          <FaArrowLeft className="mr-2" /> Back to Portfolio
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-4">{holding.name} Details</h2>
-      <div className="mb-6">
+    <div className="w-full mx-auto bg-white px-4 py-2 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4 text-left">
+        {holding.name} Details
+      </h2>
+      <div className="mb-6 space-y-2">
         <p>
           <strong>Symbol:</strong> {holding.symbol.toUpperCase()}
         </p>
@@ -54,48 +60,76 @@ const HoldingDetails: React.FC<HoldingDetailsProps> = ({ holdingId }) => {
       {/* Timeframe Controls */}
       <div className="mb-4">
         <span className="font-semibold mr-2">Select Timeframe:</span>
-        {[
-          { label: '1D', value: '1' },
-          { label: '7D', value: '7' },
-          { label: '1M', value: '30' },
-          { label: '3M', value: '90' },
-          { label: '1Y', value: '365' },
-        ].map((option) => (
-          <button
-            key={option.value}
-            onClick={() => setTimeframe(option.value)}
-            className={`px-3 py-1 mr-2 rounded ${
-              timeframe === option.value
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 hover:bg-gray-300'
-            }`}
+        
+        {/* Timeframe Buttons for Desktop */}
+        <div className="hidden md:flex space-x-2 mt-2">
+          {[
+            { label: '1D', value: '1' },
+            { label: '7D', value: '7' },
+            { label: '1M', value: '30' },
+            { label: '3M', value: '90' },
+            { label: '1Y', value: '365' },
+          ].map((option) => (
+            <button
+              key={option.value}
+              onClick={() => setTimeframe(option.value)}
+              className={`px-3 py-1 rounded ${
+                timeframe === option.value
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-200 hover:bg-gray-300'
+              } transition`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        
+        {/* Timeframe Dropdown for Mobile */}
+        <div className="md:hidden mt-2">
+          <select
+            value={timeframe}
+            onChange={(e) => setTimeframe(e.target.value)}
+            className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {option.label}
-          </button>
-        ))}
+            <option value="1">1D</option>
+            <option value="7">7D</option>
+            <option value="30">1M</option>
+            <option value="90">3M</option>
+            <option value="365">1Y</option>
+          </select>
+        </div>
       </div>
+      {/* Chart */}
       {isLoading ? (
-        <div>Loading chart...</div>
+        <div className="flex justify-center items-center">
+          <span className="text-gray-600">Loading chart...</span>
+        </div>
       ) : error ? (
-        <div>Error loading chart: {error.message}</div>
+        <div className="text-red-500">
+          Error loading chart: {error.message}
+        </div>
       ) : data && data.length > 0 ? (
-        <div style={{ width: '100%', height: 400 }}>
+        <div className="w-full h-64 md:h-96">
           <ResponsiveContainer>
             <LineChart data={data}>
               <XAxis dataKey="date" />
               <YAxis dataKey="price" />
               <Tooltip />
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-              <Line type="monotone" dataKey="price" stroke="#8884d8" />
+              <Line type="monotone" dataKey="price" stroke="#3182ce" />
             </LineChart>
           </ResponsiveContainer>
         </div>
       ) : (
-        <div>No data available for chart.</div>
+        <div className="text-gray-600">No data available for chart.</div>
       )}
+      {/* Back Link */}
       <div className="mt-6">
-        <Link to="/" className="text-blue-500 hover:underline">
-          &larr; Back to Portfolio
+        <Link
+          to="/"
+          className="flex items-center text-blue-500 hover:underline"
+        >
+          <FaArrowLeft className="mr-2" /> Back to Portfolio
         </Link>
       </div>
     </div>
