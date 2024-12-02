@@ -134,6 +134,8 @@ Thi will run the server on http://localhost:3000.
 crypto-portfolio-tracker/
 ├── src/
 │   ├── components/
+│   │   ├── Header.tsx
+│   │   ├── ErrorBoundary.tsx
 │   │   ├── HoldingDetails.tsx
 │   │   ├── HoldingForm.tsx
 │   │   └── HoldingsList.tsx
@@ -143,6 +145,7 @@ crypto-portfolio-tracker/
 │   ├── hooks/
 │   │   └── useFetchCryptoData.ts
 │   ├── pages/
+│   │   ├── Home.tsx
 │   │   ├── AddEditHolding.tsx
 │   │   └── Details.tsx
 │   ├── store.ts
