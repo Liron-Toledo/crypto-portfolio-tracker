@@ -27,6 +27,7 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
 
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Updates form based on selected holding
   useEffect(() => {
     if (holding) {
       setFormState({
@@ -100,6 +101,7 @@ const HoldingForm: React.FC<HoldingFormProps> = ({ holdingId }) => {
         {holdingId ? 'Edit Holding' : 'Add New Holding'}
       </h2>
       <form onSubmit={handleSubmit}>
+        
         {/* Cryptocurrency Selection */}
         <div className="mb-4">
           <label className="block mb-2 font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300">

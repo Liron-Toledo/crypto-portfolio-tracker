@@ -99,6 +99,7 @@ const HoldingsList: React.FC = () => {
     <div>
       {/* Filter and Sort Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+        
         {/* Filter Input */}
         <input
           type="text"

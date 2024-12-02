@@ -1,13 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage
+import storage from 'redux-persist/lib/storage'; // Default storage is localStorage
 import holdingsReducer from './features/holdings/holdingsSlice';
 
 const persistConfig = {
-  key: 'root',
-  storage,
+  key: 'root', // Key for the persisted state in localStorage
+  storage, // Storage mechanism (localStorage by default)
 };
 
+/**
+ * Create a persisted version of the holdings reducer.
+ * This ensures that the holdings state is saved to and restored from localStorage.
+ */
 const persistedReducer = persistReducer(persistConfig, holdingsReducer);
 
 export const store = configureStore({
@@ -17,7 +21,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Ignore actions from redux-persist
+        // Ignore redux-persist (suppresses warning)
         ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
       },
     }),

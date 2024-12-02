@@ -9,6 +9,10 @@ const initialState: HoldingsState = {
   items: [],
 };
 
+/**
+ * Create a Redux slice for managing cryptocurrency holdings.
+ * This slice includes actions for adding, updating, and deleting holdings.
+ */
 const holdingsSlice = createSlice({
   name: 'holdings',
   initialState,
@@ -29,5 +33,4 @@ const holdingsSlice = createSlice({
 });
 
 export const { addHolding, updateHolding, deleteHolding } = holdingsSlice.actions;
-
 export default holdingsSlice.reducer;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaMoon, FaSun } from 'react-icons/fa'; // Icons for toggle
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 const Header: React.FC = () => {
   // State to manage dark mode
@@ -24,7 +24,6 @@ const Header: React.FC = () => {
     }
   }, []);
 
-  // Toggle dark mode
   const toggleDarkMode = () => {
     if (isDarkMode) {
       document.documentElement.classList.remove('dark');

@@ -25,6 +25,7 @@ const HoldingDetails: React.FC<HoldingDetailsProps> = ({ holdingId }) => {
 
   const [timeframe, setTimeframe] = useState('7'); // Default timeframe is 7 days
 
+  // Fetch historical data for current holding
   const { data, isLoading, error } = useFetchCryptoHistory(
     holding?.coinGeckoId,
     timeframe
